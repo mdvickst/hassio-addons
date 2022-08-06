@@ -3,15 +3,40 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apt-get update \
-    && apt-get install -y sqlite3 wget sudo \
+RUN apk add sqlite3 wget \
          python-configobj python-cheetah python-pil python-usb python-setuptools \
-         supervisor tzdata jq
+         supervisor tzdata jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config git
 
-RUN wget http://weewx.com/downloads/released_versions/weewx-3.9.1.tar.gz -O /tmp/weewx.tgz && \
-      cd /tmp && \
-      tar zxvf /tmp/weewx.tgz && \
-      cd weewx-* ; ./setup.py build ; ./setup.py install --no-prompt
+RUN git clone git://git.osmocom.org/rtl-sdr.git && \
+      cd rtl-sdr && \
+      mkdir build && \
+      cd build && \
+      cmake -DINSTALL_UDEV_RULES=ON .. && \
+      make && \
+      sudo make install && \
+      sudo ldconfig
+
+RUN git clone https://github.com/merbanan/rtl_433  && \
+      cd rtl_433 && \
+      mkdir build && \
+      cd build && \
+      cmake .. && \
+      make && \
+      sudo make install
+
+# install weeWX
+RUN wget -qO - http://weewx.com/keys.html | sudo apt-key add - && \
+      wget -qO - http://weewx.com/apt/weewx.list | sudo tee /etc/apt/sources.list.d/weewx.list && \
+      sudo apt-get update && \
+      sudo apt-get install weewx && \
+
+      # shut down weeWX
+      sudo /etc/init.d/weewx stop && \
+
+      # install weewx-sdr extension and enable the driver
+      git clone https://github.com/matthewwall/weewx-sdr.git && \
+      sudo wee_extension --install weewx-sdr && \
+      sudo wee_config --reconfigure
 
 RUN wget https://github.com/eclipse/paho.mqtt.python/archive/v1.4.0.tar.gz -O /tmp/mqtt.tgz && \
       cd /tmp && \
