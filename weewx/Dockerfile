@@ -3,7 +3,7 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache --virtual .buildDeps \
+RUN apk upgrade && pk add --no-cache --virtual .buildDeps \
     build-base \
     libusb-dev \
     librtlsdr-dev \
