@@ -6,7 +6,7 @@ ENV LANG C.UTF-8
 RUN apt-get update \
     && apt-get install -y sqlite3 wget sudo \
          python-configobj python-cheetah python-pil python-usb python-setuptools \
-         supervisor tzdata jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config
+         supervisor tzdata jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config git
 
 RUN git clone git://git.osmocom.org/rtl-sdr.git && \
       cd rtl-sdr && \
