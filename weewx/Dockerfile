@@ -3,16 +3,8 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apk upgrade && pk add --no-cache --virtual .buildDeps \
-    build-base \
-    libusb-dev \
-    librtlsdr-dev \
-    cmake \
-    git \
-    sqlite \
-    wget \
-    py3-configobj py3-cheetah py3-pillow py3-usb py3-setuptools \
-    supervisor tzdata jq  autoconf libtool pkgconf sudo
+RUN apk upgrade && apk add --no-cache --virtual .buildDeps \
+    build-base libusb-dev librtlsdr-dev cmake git sqlite wget py3-configobj py3-cheetah py3-pillow py3-usb py3-setuptools supervisor tzdata jq  autoconf libtool pkgconf sudo
 
 RUN git clone git://git.osmocom.org/rtl-sdr.git && \
       cd rtl-sdr && \
