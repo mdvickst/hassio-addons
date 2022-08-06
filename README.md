@@ -235,15 +235,3 @@ action:
 mode: single
 ```
 
-## LIRC
-Uses the Linux Infrared Remote Control Library and MQTT to send and receive infrared commands with a Raspberry Pi.
-
-** Update: I don't think this installs with current versions of Home Assistant (Anything newer than mid-2019). I no longer use a Raspberry Pi to host Home Assistant (I use a Linux server with a KVM virtual machine) and I have not attempted to get this working on any hardware other than the Raspberry Pi GPIO. Leaving here in case it is helpful for anyone **
-
-#### Example configuration:
-```
-{
-  "mqttUser": "MQTTUserName",
-  "mqttPassword": "MQTTPassword"
-}
-```
