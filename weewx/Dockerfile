@@ -3,11 +3,10 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN \
-  apk add --no-cache \
-    python3
-
-RUN apk add libusb-dev librtlsdr-dev cmake git sqlite wget py3-configobj py3-cheetah py3-pillow py3-usb py3-setuptools supervisor tzdata jq  autoconf libtool pkgconf sudo
+RUN apt-get update \
+    && apt-get install -y sqlite3 wget sudo \
+         python-configobj python-cheetah python-pil python-usb python-setuptools \
+         supervisor tzdata jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config
 
 RUN git clone git://git.osmocom.org/rtl-sdr.git && \
       cd rtl-sdr && \
