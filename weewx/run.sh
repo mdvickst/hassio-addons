@@ -2,7 +2,6 @@
 
 CONFIG_PATH=/data/options.json
 
-SDR-USB-PATH="$(jq --raw-output '.usb-path' $CONFIG_PATH)"
 LATITUDE="$(jq --raw-output '.latitude' $CONFIG_PATH)"
 LONGITUDE="$(jq --raw-output '.longitude' $CONFIG_PATH)"
 ALTITUDE="$(jq --raw-output '.altitude' $CONFIG_PATH)"
