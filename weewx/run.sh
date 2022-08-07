@@ -2,7 +2,7 @@
 
 CONFIG_PATH=/data/options.json
 
-DRIVER="$(jq --raw-output '.driver' $CONFIG_PATH)"
+SDR-USB-PATH="$(jq --raw-output '.usb-path' $CONFIG_PATH)"
 LATITUDE="$(jq --raw-output '.latitude' $CONFIG_PATH)"
 LONGITUDE="$(jq --raw-output '.longitude' $CONFIG_PATH)"
 ALTITUDE="$(jq --raw-output '.altitude' $CONFIG_PATH)"
@@ -12,14 +12,18 @@ UNITS="$(jq --raw-output '.units' $CONFIG_PATH)"
 MQTTUSER="$(jq --raw-output '.mqttUser' $CONFIG_PATH)"
 MQTTPASSWORD="$(jq --raw-output '.mqttPassword' $CONFIG_PATH)"
 
-/home/weewx/bin/wee_config --reconfigure --driver=$DRIVER --latitude=$LATITUDE --longitude=$LONGITUDE --altitude=$ALTITUDE,$ALTITUDEUNIT --location=$LOCATION --units=$UNITS --no-prompt --config=/home/weewx/weewx.conf
+sudo rtl_433 -M utc -F json
 
-sed -i '/INSERT_SERVER_URL_HERE/ a \
+sudo PYTHONPATH=/usr/share/weewx python /usr/share/weewx/user/sdr.py --cmd="rtl_433 -M utc -F json"
+
+/home/weewx/bin/wee_config --reconfigure --latitude=$LATITUDE --longitude=$LONGITUDE --altitude=$ALTITUDE,$ALTITUDEUNIT --location=$LOCATION --units=$UNITS --no-prompt --config=/home/weewx/weewx.conf
+
+sed -i '/192.168.86.240/ a \
 \ \ \ \ \ \ \ \ topic = weather\
 \ \ \ \ \ \ \ \ unit_system = US\
-' /home/weewx/weewx.conf
+' /home/weewx/weewx.conf  
 
-sed -i 's/INSERT_SERVER_URL_HERE/mqtt:\/\/'$MQTTUSER':'$MQTTPASSWORD'@core-mosquitto:1883/g' /home/weewx/weewx.conf
+sed -i 's/192.168.86.240/mqtt:\/\/'$MQTTUSER':'$MQTTPASSWORD'@core-mosquitto:1883/g' /home/weewx/weewx.conf
 
 sed -i 's/archive_interval = 300/archive_interval = 60/g' /home/weewx/weewx.conf
 
