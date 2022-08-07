@@ -1,5 +1,5 @@
-#ARG BUILD_FROM
-FROM hassioaddons/ubuntu-base-aarch64:3.0.0
+ARG BUILD_FROM
+FROM  $BUILD_FROM
 
 ENV LANG C.UTF-8
 
