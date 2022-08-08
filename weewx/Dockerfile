@@ -5,7 +5,7 @@ ENV LANG C.UTF-8
 
 RUN apt-get update \
     && apt-get install -y supervisor tzdata jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config \
-    python3-configobj python3-pil python3-serial python3-usb python3-pip python3-ephem mariadb-client python3-mysqldb git wget sudo
+    python3-configobj python3-pil python3-serial python3-usb python3-pip python3-ephem mariadb-client python3-mysqldb git wget sudo apache2
 
 RUN sudo pip3 install Cheetah3
 
@@ -39,6 +39,11 @@ RUN wget https://github.com/eclipse/paho.mqtt.python/archive/v1.4.0.tar.gz -O /t
 
 RUN wget http://lancet.mit.edu/mwall/projects/weather/releases/weewx-mqtt-0.19.tgz -O /tmp/weewx-mqtt.tgz && \
       /home/weewx/bin/wee_extension --install /tmp/weewx-mqtt.tgz
+
+RUN sudo cp /home/weewx/util/apache/conf-available/weewx.conf /etc/apache2/conf-available && \
+      sudo ln -s /etc/apache2/conf-available/weewx.conf /etc/apache2/conf-enabled
+
+RUN sudo systemctl restart apache2
 
 # Copy data for add-on
 COPY run.sh /
