@@ -28,6 +28,8 @@ sed -i 's/archive_interval = 300/archive_interval = 60/g' /home/weewx/weewx.conf
 
 sed -i 's/log_success = True/log_success = False/g' /home/weewx/weewx.conf
 
+cat /etc/apache2/conf-enabled
+
 apachectl -D FOREGROUND
 
 /home/weewx/bin/weewxd /home/weewx/weewx.conf
