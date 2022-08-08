@@ -43,8 +43,6 @@ RUN wget http://lancet.mit.edu/mwall/projects/weather/releases/weewx-mqtt-0.19.t
 RUN sudo cp /home/weewx/util/apache/conf-available/weewx.conf /etc/apache2/conf-available && \
       sudo ln -s /etc/apache2/conf-available/weewx.conf /etc/apache2/conf-enabled
 
-RUN sudo systemctl restart apache2
-
 # Copy data for add-on
 COPY run.sh /
 RUN chmod a+x /run.sh
