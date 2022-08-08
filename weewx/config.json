@@ -1,9 +1,13 @@
 {
   "name": "WeeWX",
-  "version": "0.92",
+  "version": "0.93",
   "slug": "hassio_weewx",
   "description": "Add-on for connecting weather stations to Hass.io using WeeWX and MQTT",
   "url": "https://github.com/mdvickst/hassio-addons",
+  "ingress": true,
+  "ingress_port": 80,
+  "ingress_stream": true,
+  "panel_icon": "mdi:weather-hail",
   "arch": [
     "armhf",
     "armv7",
