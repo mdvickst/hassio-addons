@@ -3,19 +3,16 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
-
-RUN apt-get install -y supervisor jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config \
-    python3-configobj python3-pil python3-serial python3-usb python3-pip python3-ephem mariadb-client python3-mysqldb git wget sudo apache2
-
-RUN sudo pip3 install Cheetah3
-
 RUN wget -qO - https://weewx.com/keys.html | sudo gpg --dearmor --output /etc/apt/trusted.gpg.d/weewx.gpg \
       && wget -qO - https://weewx.com/apt/weewx-python3.list | sudo tee /etc/apt/sources.list.d/weewx.list
 
 RUN apt-get update \
-      && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y weewx
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata 
+
+RUN apt-get install -y supervisor jq cmake libusb-1.0-0-dev build-essential autoconf libtool pkg-config \
+    python3-configobj python3-pil python3-serial python3-usb python3-pip python3-ephem mariadb-client python3-mysqldb git wget sudo weewx
+
+RUN sudo pip3 install Cheetah3
 
 RUN git clone git://git.osmocom.org/rtl-sdr.git && \
       cd rtl-sdr && \
