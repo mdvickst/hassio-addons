@@ -11,7 +11,7 @@ RUN apt-get install -y supervisor jq cmake libusb-1.0-0-dev build-essential auto
 
 RUN pip3 install Cheetah3
 
-RUN git clone git://git.osmocom.org/rtl-sdr.git && \
+RUN cd /home && git clone git://git.osmocom.org/rtl-sdr.git && \
       cd rtl-sdr && \
       mkdir build && \
       cd build && \
@@ -20,7 +20,7 @@ RUN git clone git://git.osmocom.org/rtl-sdr.git && \
       sudo make install && \
       sudo ldconfig
 
-RUN git clone https://github.com/merbanan/rtl_433  && \
+RUN cd /home && git clone https://github.com/merbanan/rtl_433  && \
       cd rtl_433 && \
       mkdir build && \
       cd build && \
@@ -41,6 +41,9 @@ RUN wget https://github.com/eclipse/paho.mqtt.python/archive/v1.4.0.tar.gz -O /t
 
 RUN wget http://lancet.mit.edu/mwall/projects/weather/releases/weewx-mqtt-0.19.tgz -O /tmp/weewx-mqtt.tgz && \
       /home/weewx/bin/wee_extension --install /tmp/weewx-mqtt.tgz
+
+RUN cd /home && git clone https://github.com/matthewwall/weewx-sdr.git && sudo /home/weewx/bin/wee_extension --install weewx-sdr \
+      && sudo /home/weewx/bin/wee_config --reconfigure --driver=user.sdr --no-prompt
 
 RUN sudo cp /home/weewx/util/apache/conf-available/weewx.conf /etc/apache2/conf-available && \
       sudo ln -s /etc/apache2/conf-available/weewx.conf /etc/apache2/conf-enabled

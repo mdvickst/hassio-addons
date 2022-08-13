@@ -28,6 +28,9 @@ sed -i 's/archive_interval = 300/archive_interval = 60/g' /home/weewx/weewx.conf
 
 sed -i 's/log_success = True/log_success = False/g' /home/weewx/weewx.conf
 
+sed '/driver\s=\suser\.sdr.*/a    log_unknown_sensors = True' /home/weewx/weewx.conf
+sed '/driver\s=\suser\.sdr.*/a    log_unmapped_sensors = True' /home/weewx/weewx.conf
+
 apachectl start
 /home/weewx/bin/weewxd /home/weewx/weewx.conf
 #sleep infinity
