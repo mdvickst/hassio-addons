@@ -17,10 +17,6 @@ sudo PYTHONPATH=/usr/share/weewx python /usr/share/weewx/user/sdr.py --cmd="rtl_
 
 /home/weewx/bin/wee_config --reconfigure --latitude=$LATITUDE --longitude=$LONGITUDE --altitude=$ALTITUDE,$ALTITUDEUNIT --location=$LOCATION --units=$UNITS --no-prompt --config=/home/weewx/weewx.conf
 
-sed -i '/192.168.86.240/ a \
-\ \ \ \ \ \ \ \ topic = weather\
-\ \ \ \ \ \ \ \ unit_system = US\
-' /home/weewx/weewx.conf  
 
 sed -i 's/192.168.86.240/mqtt:\/\/'$MQTTUSER':'$MQTTPASSWORD'@core-mosquitto:1883/g' /home/weewx/weewx.conf
 
@@ -28,9 +24,8 @@ sed -i 's/archive_interval = 300/archive_interval = 60/g' /home/weewx/weewx.conf
 
 sed -i 's/log_success = True/log_success = False/g' /home/weewx/weewx.conf
 
-cat /etc/apache2/conf-enabled
-
-apachectl -D FOREGROUND
-
-/home/weewx/bin/weewxd /home/weewx/weewx.conf
+##apachectl start
+sudo cp /home/weewx/weewx.conf /etc/weewx/weewx.conf
+#/home/weewx/bin/weewxd /home/weewx/weewx.conf
+sudo /etc/init.d/weewx start
 #sleep infinity
