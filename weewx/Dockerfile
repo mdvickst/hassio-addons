@@ -49,8 +49,9 @@ RUN sudo cp /home/weewx/util/apache/conf-available/weewx.conf /etc/apache2/conf-
       sudo ln -s /etc/apache2/conf-available/weewx.conf /etc/apache2/conf-enabled
 
 # Copy data for add-on
+COPY ingress.conf /etc/nginx/http.d/
+
 COPY run.sh /
 RUN chmod a+x /run.sh
-EXPOSE 80
 
 CMD [ "/run.sh" ]
